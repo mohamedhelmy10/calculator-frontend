@@ -1,0 +1,29 @@
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ff9999;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+  
+  .content {
+    text-align: center;
+  }
+  
+  .message {
+    margin: 0;
+    color: #721c24;
+  }
+  
+  .closeButton {
+    padding: 5px 10px;
+    background: #721c24;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
