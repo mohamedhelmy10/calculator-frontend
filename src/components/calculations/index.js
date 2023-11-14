@@ -9,7 +9,7 @@ const Calculator = () => {
   const [operand1, setOperand1] = useState('');
   const [operand2, setOperand2] = useState('');
   const [operator, setOperator] = useState('');
-  const [result, setResult] = useState(null);
+  const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +20,7 @@ const Calculator = () => {
                 setLoading(true);
                 const calculation = {operand1: parseFloat(operand1), operand2: parseFloat(operand2), operator: operator}
                 const response = await calculate(calculation);
-                setResult(response.result);
+                setResponse(response);
             }
         } catch (error) {
             setError(error);
@@ -31,55 +31,67 @@ const Calculator = () => {
     fetchData();
   }, [operand1, operand2, operator]);
 
-  const handleOperand1Change = (e) => {
-    setOperand1(e.target.value);
+  const handleOperand1Change = (operand1) => {
+    setOperator('');
+    setResponse(null);
+    setOperand1(operand1);
   };
 
-  const handleOperand2Change = (e) => {
-    setOperand2(e.target.value);
+  const handleOperand2Change = (operand2) => {
+    setOperator('');
+    setResponse(null);
+    setOperand2(operand2);
   };
 
   const handleOperatorClick = async (operator) => {
-    setOperator(operator);
-    setError(null);
     if (!isValidOperator(operator)) {
         setError(OPERATORERRORMESSAGE);
-        setResult(null);
+    }else{
+        setError(null);
+        setOperator(operator);
     }
   };
 
-
   return (
-    <div>
-      <h2>Calculator</h2>
-        <label>
-          Operand 1: 
-          <input type="text" value={operand1} onChange={handleOperand1Change} disabled={loading}/>
-        </label>
-        <br />
-        <label>
-          Operand 2: 
-          <input type="text" value={operand2} onChange={handleOperand2Change} disabled={loading}/>
-        </label>
-        <br />
-        <br />
-        <label>
-          Operator: 
-        {OPERATORS.map((operator, index) => (
-            <button key={index} style={{ marginRight: '10px' }} onClick={() => handleOperatorClick(operator)} disabled={(!isValidOperand(operand1) || !isValidOperand(operand2) || loading)}>
-            {operator}
-            </button>
-        ))}
-        </label>
-        <br />
-
-      {result !== null && !error &&(
-        <div>
-          <h3>Result:</h3>
-          <p>{operand1} {operator} {operand2} = {result}</p>
+    <div className="calculator-container">
+      <div className="calculator">
+        <h2>Calculator</h2>
+        <div className="input-fields">
+          <label>
+            Operand 1: 
+            <input type="text" value={operand1} onChange={(e) => handleOperand1Change(e.target.value)} disabled={loading}/>
+          </label>
+          <br />
+          <label>
+            Operand 2: 
+            <input type="text" value={operand2} onChange={(e) => handleOperand2Change(e.target.value)} disabled={loading}/>
+          </label>
+          <br />
         </div>
-      )}
-      {error && <PopupError message={error} onClose={() => setError(null)} />}
+        <br />
+        <div className="buttons">
+          <label>
+            Operator: 
+            {OPERATORS.map((operator, index) => (
+                <button key={index} style={{ marginRight: '10px' }} onClick={() => handleOperatorClick(operator)} disabled={(!isValidOperand(operand1) || !isValidOperand(operand2) || loading)}>
+                {operator}
+                </button>
+            ))}
+          </label>
+        </div>
+        <br />
+        <div className="result">
+          {response !== null && !error &&(
+            <div>
+              <h3>Result:</h3>
+              <p>{response.operation}= {response.result}</p>
+              <h3>Count:</h3>
+              <p>{response.count}</p>
+            </div>
+          )}
+          {error && <PopupError message={error} onClose={() => setError(null)} />}
+        </div>
+      </div>
     </div>
   );
 };
