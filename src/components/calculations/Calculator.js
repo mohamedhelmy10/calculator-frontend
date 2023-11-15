@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { calculate } from '../../network/apis/calculations';
 import { OPERATORS, OPERATORERRORMESSAGE } from '../../utils/constants';
 import { isValidOperand, isValidOperator } from '../../utils/helpers/validations';
-import PopupError from '../../sharedComponents/popupError';
+import PopupError from '../../sharedComponents/PopupError';
+import './calculator.css'
 
 const Calculator = () => {
 
@@ -55,7 +56,6 @@ const Calculator = () => {
   return (
     <div className="calculator-container">
       <div className="calculator">
-        <h2>Calculator</h2>
         <div className="input-fields">
           <label>
             Operand 1: 
@@ -73,7 +73,7 @@ const Calculator = () => {
           <label>
             Operator: 
             {OPERATORS.map((operator, index) => (
-                <button key={index} style={{ marginRight: '10px' }} onClick={() => handleOperatorClick(operator)} disabled={(!isValidOperand(operand1) || !isValidOperand(operand2) || loading)}>
+                <button className="button" key={index} style={{ marginRight: '10px' }} onClick={() => handleOperatorClick(operator)} disabled={(!isValidOperand(operand1) || !isValidOperand(operand2) || loading)}>
                 {operator}
                 </button>
             ))}

@@ -1,4 +1,5 @@
 import React from 'react'
+import './popup-error.css';
 
 const PopupError = ({ message, onClose }) => {
     return (
