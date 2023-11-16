@@ -80,7 +80,7 @@ const Calculator = () => {
           </label>
         </div>
         <br />
-        <div className="result">
+        <div className="result" data-testid="result">
           {response !== null && !error &&(
             <div>
               <h3>Result:</h3>
